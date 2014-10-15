@@ -1,0 +1,168 @@
+# Basic File Inclusion 
+# This won't work 
+puts "This is a test".vowels.join('_')
+
+# extension to the String class to provide it:
+
+class string 
+	def vowels
+		self.scan(/[aeiou]/i)
+	end 
+end 
+
+# you can copy out to a separate file and use the require command to load to current program from different file.
+
+require 'string_extentions'
+puts "This is a test".vowel.join('')
+
+# this works as wall as require
+
+load 'string_extentions.rb'
+puts "This is a test".vowels.join('')
+
+# 
+
+puts "Hello from a.rb"
+
+#
+
+require 'a'
+puts "Hello from b.rb"
+require 'a'
+puts "Hello again from b.rb"
+
+# With load, the code is loaded and reprocessed anew each time you use the load method.
+# require, on the onther hand, processes external code only once.
+
+load 'a.rb'
+puts "Hello world from b.rb"
+load 'a.rb'
+puts "Hello again from b.rb"
+
+# Ruby programmers use require rather than load.
+
+
+# Inclusions from Other Directories 
+
+# Ruby stores the list of direcrtories to search for included files in a special variables called $:
+# (or, if you prefer, $LOAD_PATH). You can see what $: contains by default, using irb:
+
+s:.each { |d| puts d } 
+require 'yourfile'
+
+# add extra directories to this is easy 
+
+$:.push '/your/directory/here'
+require 'yourfile'
+
+# NOTE Ruby keeps tracks of the files include has processed by using the same name used to access them.
+
+# Logic and Icluding Code 
+
+$debug_mode = 0 
+require $debug_mode == 0 ? "normal-classes" : "debug-classes"
+# It checks if gloabal variables $debug _mode is set to 0.
+# If it is, it requires normal-classe.rb, and if it is not debug-classses.rb.
+# This gives you the power to include a different source of file , value of a variable.
+# Application has "regular" and "debug" modes.
+
+# This is a shortcut of arrays to quickly load a collections of libaries at once.
+%w{file1 file2 file3 file4 file5 file5}.each { |1| require 1 }
+
+
+# Nested Inclusions 
+
+# Codes from files that are included in others with  require and load has the same freedom as if the code were passes directly into the original file.
+# This is means files that you include can call "load" and "require" themselves.
+
+require 'b'
+	and b.rb contains the following:
+require 'c'
+	and c.rb contains the following:
+def examples
+	puts "Hello!"
+end 
+
+	and d.rb contains the following:
+
+require 'a'
+example 
+
+	when d.rb is then run,
+
+# This makes it easier to put lager projects together.
+
+# Libraries 
+# Is a collection of routines that can be called by separete programs that exist independently of those programs.
+# basic demo of how libraries work 
+
+class String 
+	def vowels
+		self.scan(/[aeiou]/i)
+	end 
+end 
+ # name in a file with this extention "string_extension.rb"
+ # use  it this library with the following:
+
+ require 'string_extension'
+ puts "This is a test".vowels.join('-')
+
+# it's trivial to write a Ruby script that can download and print out the contents of particular web page.
+
+require 'net/http'
+Net::HTTP.get_print('www.rubyinside.com', '/')
+# The first line loads the net/http library into the current program.
+# The second line calls method on the Net::HTTP class 
+# where Net is a module defining Net name space and HTTP is a subclass	
+# that gets and prints(hence get_print)
+
+#
+
+require 'net/http'
+url = URI.parse('http://www.rubyinside.com')
+response = Net::HTTP.start(url.host, url.port) do |http|
+	http.get(url.path)
+end
+content = response.body 
+
+
+# OpenStruct
+
+Person = Struct.new(:name, :age)
+me = Person.new("Fred Bloggs", 25)
+me.age += 1 
+
+# 
+
+require 'ostruct'
+person = OpenStruct.new
+person.name = "Fred Bloggs"
+person.age = 25
+
+# person is a variable pointing to an object of class OpenStuct, and Open struct
+# allows you to call attributes whatever you like.
+
+# RubyGems 
+# is a packaging system for Ruby programs and libraries.
+
+# RubyGems system is not part of ruby, therefore you need to call it.
+
+# gem install feedtools ----> write this in terminal in order to install
+
+# Install RedCloth in terminal 
+# gem install RedCloth ----> write this in terminal
+# run irb in terminal and create a file.
+
+require 'rubygems'
+require 'RedCloth'
+r = RedCloth.new("this is a *test* of _using RedCloth")
+puts r.to_html
+
+# gem install hpricot ----> write this in terminal
+# if you desire to update ---> gems upadate
+# if you desire to uninstall gems uninstall feetools
+# uninstall by versions ---> $ gem uninstall rubyforge 
+
+
+
+
